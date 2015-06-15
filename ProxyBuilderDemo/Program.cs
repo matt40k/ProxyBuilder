@@ -4,10 +4,11 @@ namespace ProxyBuilderDemo
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             ProxyBuilder proxyBuilder = new ProxyBuilder();
-
+            Console.WriteLine(proxyBuilder.GetDefaultProxyAddress);
+            Console.ReadKey();
         }
     }
 }
