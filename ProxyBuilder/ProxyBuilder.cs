@@ -11,14 +11,42 @@ public class ProxyBuilder
         if (_defaultProxy != null)
         {
             Address = GetProxyAddress(_defaultProxy);
-            Proxy = GetProxyPort(_defaultProxy);
+            Port = GetProxyPort(_defaultProxy);
         } 
+    }
+
+    public IWebProxy Proxy
+    {
+        get
+        {
+            if (UseProxy)
+            {
+                WebProxy _webProxy;
+                if (Port > 0)
+                    _webProxy = new WebProxy(Address, Port);
+                else
+                    _webProxy = new WebProxy(Address);
+
+                if (UseDefaultCredentials)
+                    _webProxy.UseDefaultCredentials = UseDefaultCredentials;
+                else
+                {
+                    _webProxy.UseDefaultCredentials = false;
+                    _webProxy.Credentials = new NetworkCredential(Username, Password);
+                }
+                return _webProxy;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 
     public bool UseProxy { get; set; }
     public string Address { get; set; }
     public string Server { get; set; }
-    public int Proxy { get; set; }
+    public int Port { get; set; }
     public string Username
     {
         get
@@ -60,7 +88,7 @@ public class ProxyBuilder
 
     public string GetProxyAddress(Uri ProxyUri)
     {
-        return ProxyUri.AbsoluteUri;
+        return ProxyUri.Host;
     }
 
     public int GetProxyPort(Uri ProxyUri)
