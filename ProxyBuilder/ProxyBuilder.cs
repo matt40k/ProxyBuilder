@@ -47,17 +47,20 @@ public class ProxyBuilder
     public string Address { get; set; }
     public string Server { get; set; }
     public int Port { get; set; }
+
+    private string _username;
+
     public string Username
     {
         get
         {
-            return Username;
+            return _username;
         }
 
-        set
+        set 
         {
             UseDefaultCredentials = false;
-            Username = value;
+            _username = value;
         }
     }
     public string Password { get; set; }
